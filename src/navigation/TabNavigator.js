@@ -6,7 +6,7 @@ import {MainStackNavigator, FavoritesStackNavigator} from './StackNavigator';
 import {ThemeContext} from '../theme';
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = () => {
+const TabNavigator = () => {
   const {theme} = useContext(ThemeContext);
   const screenOptionStyle = {
     activeTintColor: theme.primaryColor,
@@ -44,4 +44,4 @@ const BottomTabNavigator = () => {
   );
 };
 
-export default BottomTabNavigator;
+export default TabNavigator;
