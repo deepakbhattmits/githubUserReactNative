@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {
   StyleSheet,
-  //   ScrollView,
+  ScrollView,
   View,
   Switch,
   SafeAreaView,
@@ -69,7 +69,8 @@ const Home = ({
     toggleDarkTheme(state);
     setTheme(state ? darkTheme : lightTheme);
   };
-  const toggleFav = state => {
+  const toggleFav = key => {
+    console.log('USER NODE', key);
     setIsFav(!isFav);
   };
 
@@ -85,13 +86,13 @@ const Home = ({
             style={styles.thumbnailStyle}
             source={{uri: item.owner.avatar_url}}
           />
+          <Switch onValueChange={toggleFav} value={isFav} />
         </View>
         <View style={styles.headerContentStyle}>
           <Text bold type="heading" style={styles.headerTextStyle}>
             {item.forks_url}
           </Text>
           <Text>{item.full_name}</Text>
-          <Switch onValueChange={toggleFav} value={isFav} />
         </View>
       </CardSection>
     </TouchableOpacity>
@@ -100,29 +101,17 @@ const Home = ({
   return (
     <View style={styles.container(theme)}>
       <View>
-        {/* <Text>{translate('home.darkMode')}</Text> */}
         <Switch onValueChange={toggleSwitch} value={isDarkTheme} />
-
-        {/* <Button
-          title={translate('home.detailButton')}
-          onPress={() => {
-            navigation.navigate('Detail');
-          }}
-        /> */}
-
-        {/* <Text>{`${translate('home.apiCallStatus')} : ${status}`}</Text> */}
-        {/* {errorMessage !== '' && <Text>{errorMessage}</Text>} */}
-        {/* <Text>{JSON.stringify(items)}</Text> */}
       </View>
       <View>
-        <SafeAreaView style={styles.container}>
-          <FlatList
-            style={styles.flatList}
-            data={items}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
-        </SafeAreaView>
+        {/* <SafeAreaView style={styles.container}> */}
+        <FlatList
+          style={styles.flatList}
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+        {/* </SafeAreaView> */}
       </View>
     </View>
   );
