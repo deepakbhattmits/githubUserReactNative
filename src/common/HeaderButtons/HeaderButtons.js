@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   Item,
   HeaderButton as HB,
   HeaderButtons as HBS,
 } from 'react-navigation-header-buttons';
-import { ThemeContext } from '../../theme';
-import { DIMENS } from '../../constants';
+import {ThemeContext} from '../../theme';
+import {DIMENS} from '../../constants';
 
 const HeaderButton = props => {
-  const { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   return (
     <HB
       IconComponent={MaterialIcons}
@@ -28,7 +28,7 @@ const HeaderButton = props => {
  * directly.
  */
 const HeaderButtons = props => {
-  const { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   return (
     <HBS
       HeaderButtonComponent={HeaderButton}
