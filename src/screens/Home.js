@@ -55,6 +55,8 @@ const Home = ({
   navigation,
 }) => {
   const [isDarkTheme, toggleDarkTheme] = useState(false);
+
+  const [isFav, setIsFav] = useState(false);
   const {theme, setTheme} = useContext(ThemeContext);
 
   useEffect(() => {
@@ -66,6 +68,9 @@ const Home = ({
     // If switch is on, set dark theme, else light
     toggleDarkTheme(state);
     setTheme(state ? darkTheme : lightTheme);
+  };
+  const toggleFav = state => {
+    setIsFav(!isFav);
   };
 
   const renderItem = ({item}) => (
@@ -86,6 +91,7 @@ const Home = ({
             {item.forks_url}
           </Text>
           <Text>{item.full_name}</Text>
+          <Switch onValueChange={toggleFav} value={isFav} />
         </View>
       </CardSection>
     </TouchableOpacity>
