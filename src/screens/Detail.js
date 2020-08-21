@@ -8,6 +8,10 @@ import Card from '../common/Card';
 const Detail = ({route, navigation}) => {
   const {id} = route.params;
   const {theme} = useContext(ThemeContext);
+  const dateString = date => {
+    const createdAt = new Date(date);
+    return createdAt.toLocaleDateString('en-US');
+  };
   return (
     <ScrollView style={styles.container(theme)}>
       <View style={styles.avatarContainer}>
@@ -35,7 +39,7 @@ const Detail = ({route, navigation}) => {
       </View>
       <View style={styles.typeConatiner}>
         <Text bold type="heading">
-          has wiki
+          Has wiki
         </Text>
         <Text bold type="heading">
           {id.has_wiki ? 'Yes' : 'No'}
@@ -54,7 +58,7 @@ const Detail = ({route, navigation}) => {
           Created At
         </Text>
         <Text bold type="heading">
-          {id.created_at}
+          {dateString(id.created_at)}
         </Text>
       </View>
       <View style={styles.typeConatiner}>
