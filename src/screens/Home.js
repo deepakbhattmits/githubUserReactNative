@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  CheckBox,
 } from 'react-native';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -53,6 +54,7 @@ const Home = ({
    * @source react-navigation
    */
   navigation,
+  routes,
 }) => {
   const [isDarkTheme, toggleDarkTheme] = useState(false);
 
@@ -69,14 +71,16 @@ const Home = ({
     toggleDarkTheme(state);
     setTheme(state ? darkTheme : lightTheme);
   };
-  const toggleFav = key => {
-    console.log('USER NODE', key);
-    setIsFav(!isFav);
+  const toggleFav = (key, value) => {
+    // console.log('THIS ', value);
+    const selectedUser = items.filter(el => el.owner.id === value);
+    console.log('user : ', selectedUser);
+    setIsFav(!!selectedUser);
   };
 
   const renderItem = ({item}) => (
     <TouchableOpacity
-      key={item.node}
+      key={item.owner.id}
       onPress={() => {
         navigation.navigate('Detail', {id: item, name: item.owner.login});
       }}>
@@ -86,7 +90,12 @@ const Home = ({
             style={styles.thumbnailStyle}
             source={{uri: item.owner.avatar_url}}
           />
-          <Switch onValueChange={toggleFav} value={isFav} />
+          <Switch
+            onValueChange={value => {
+              toggleFav(value, item.owner.id);
+            }}
+            value={isFav}
+          />
         </View>
         <View style={styles.headerContentStyle}>
           <Text bold type="heading" style={styles.headerTextStyle}>
