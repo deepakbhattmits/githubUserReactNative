@@ -58,7 +58,7 @@ const Home = ({
 }) => {
   const [isDarkTheme, toggleDarkTheme] = useState(false);
 
-  const [isFav, setIsFav] = useState(false);
+  const [isFav, setIsFav] = useState([]);
   const {theme, setTheme} = useContext(ThemeContext);
 
   useEffect(() => {
@@ -71,16 +71,23 @@ const Home = ({
     toggleDarkTheme(state);
     setTheme(state ? darkTheme : lightTheme);
   };
-  const toggleFav = (key, value) => {
-    // console.log('THIS ', value);
-    const selectedUser = items.filter(el => el.owner.id === value);
-    console.log('user : ', selectedUser);
-    setIsFav(!!selectedUser);
+  const toggleFav = value => {
+    let selectedUsers = [];
+    const selectedUser = items.filter(el => {
+      return el.id === value;
+    });
+    if (isFav.includes(selectedUser[0].id)) {
+      let toggleUser = isFav.filter(el => el !== selectedUser[0].id);
+      setIsFav(toggleUser);
+    } else {
+      selectedUsers = Array.from(new Set([...isFav, selectedUser[0].id]));
+      setIsFav(selectedUsers);
+    }
   };
 
   const renderItem = ({item}) => (
     <TouchableOpacity
-      key={item.owner.id}
+      key={item.id}
       onPress={() => {
         navigation.navigate('Detail', {id: item, name: item.owner.login});
       }}>
@@ -90,11 +97,12 @@ const Home = ({
             style={styles.thumbnailStyle}
             source={{uri: item.owner.avatar_url}}
           />
+          <Text>{`${isFav.includes(item.id) ? `fav` : `Unfav`}`}</Text>
           <Switch
-            onValueChange={value => {
-              toggleFav(value, item.owner.id);
+            onValueChange={() => {
+              toggleFav(item.id);
             }}
-            value={isFav}
+            value={isFav.includes(item.id)}
           />
         </View>
         <View style={styles.headerContentStyle}>
@@ -131,11 +139,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.backgroundColor,
   }),
+
   listItem: theme => ({
     color: 'yellow',
     backgroundColor: theme.backgroundColor,
     paddingVertical: 10,
   }),
+  flatList: {
+    paddingRight: 10,
+  },
   titleStyle: {
     fontSize: 18,
     paddingLeft: 15,
