@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HeaderButtons} from '../common';
 import Home from '../screens/Home';
-import About from '../screens/About';
 import Favorites from '../screens/Favorites';
 import Detail from '../screens/Detail';
 
@@ -42,7 +41,6 @@ const MainStackNavigator = () => {
         component={Detail}
         options={({route}) => ({title: route.params.name})}
       />
-      <Stack.Screen name="About" component={About} />
     </Stack.Navigator>
   );
 };
@@ -58,7 +56,21 @@ const FavoritesStackNavigator = () => {
   });
   return (
     <Stack.Navigator screenOptions={screenOptionStyle}>
-      <Stack.Screen name="Favorites" component={Favorites} />
+      <Stack.Screen
+        name="Favorites"
+        options={({navigation}) => ({
+          // title: translate('home.appbarTitle'),
+          headerLeft: () => (
+            <HeaderButtons>
+              <HeaderButtons.Item
+                iconName="arrow-back"
+                onPress={navigation.goBack}
+              />
+            </HeaderButtons>
+          ),
+        })}
+        component={Favorites}
+      />
     </Stack.Navigator>
   );
 };
