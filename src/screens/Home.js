@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  CheckBox,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
 } from 'react-native';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -116,11 +118,14 @@ const Home = ({
   );
 
   return (
-    <View style={styles.container(theme)}>
-      <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={styles.container(theme)}>
+      {/*<View style={styles.container(theme)}>*/}
+      <View style={styles.switch}>
         <Switch onValueChange={toggleSwitch} value={isDarkTheme} />
       </View>
-      <View>
+      <View style={styles.list}>
         {/* <SafeAreaView style={styles.container}> */}
         <FlatList
           style={styles.flatList}
@@ -130,7 +135,11 @@ const Home = ({
         />
         {/* </SafeAreaView> */}
       </View>
-    </View>
+      <View style={styles.input}>
+        <TextInput placeholder="Username" style={styles.textInput} />
+      </View>
+      {/*</View>*/}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -147,6 +156,16 @@ const styles = StyleSheet.create({
   }),
   flatList: {
     paddingRight: 10,
+    height: 250,
+  },
+  // switchInput: {
+  //   flex: 1,
+  // },
+  input: {
+    backgroundColor: 'red',
+    width: '100%',
+    height: 100,
+    color: '#ffffff',
   },
   titleStyle: {
     fontSize: 18,
@@ -173,6 +192,11 @@ const styles = StyleSheet.create({
     height: 300,
     flex: 1,
     width: null,
+  },
+  textInput: {
+    height: 40,
+    borderColor: '#000000',
+    borderBottomWidth: 1,
   },
 });
 
